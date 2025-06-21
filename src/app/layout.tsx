@@ -5,7 +5,7 @@ import { DataProvider } from '@/context/data-context';
 
 export const metadata: Metadata = {
   title: 'DataWise AI',
-  description: 'AI-powered data analysis and insights',
+  description: 'AI-powered data and analysis and insights',
 };
 
 export default function RootLayout({
