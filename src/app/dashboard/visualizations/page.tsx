@@ -17,7 +17,7 @@ const LoadingSkeleton = () => (
                     <Skeleton className="h-6 w-3/4"/>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <Skeleton className="h-48 w-full"/>
+                    <Skeleton className="h-[350px] w-full"/>
                     <Skeleton className="h-4 w-full"/>
                     <Skeleton className="h-4 w-5/6"/>
                 </CardContent>
@@ -40,7 +40,7 @@ export default function VisualizationsPage() {
         setVisualizationsResult(null);
 
         try {
-            const result = await generateVisualizations({ datasetDescription, datasetSample: dataset.slice(0, 10000) });
+            const result = await generateVisualizations({ datasetDescription, datasetSample: dataset.slice(0, 5000) });
             setVisualizationsResult(result);
             toast({ title: "Visualizations Ready", description: "AI-generated charts are available for review." });
         } catch (error) {
@@ -77,7 +77,7 @@ export default function VisualizationsPage() {
                                 <CardTitle className="font-headline flex items-center gap-2"><Eye className="h-5 w-5 text-primary"/>{vis.title}</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                               <div className="border rounded-lg p-4 bg-muted/50 flex justify-center">
+                               <div className="border rounded-lg p-4 bg-muted/50 flex justify-center h-[350px]">
                                  <DynamicChart chartData={vis} />
                                </div>
                                 <p className="text-sm text-muted-foreground">{vis.description}</p>

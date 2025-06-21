@@ -144,7 +144,7 @@ export function UploadCard() {
           
           <TabsContent value="kaggle">
             <form onSubmit={handleKaggleSubmit} className="space-y-4 pt-4">
-              <div>
+              <div className="space-y-2">
                 <Input 
                   id="kaggle-url" 
                   placeholder="https://www.kaggle.com/datasets/..."
@@ -152,6 +152,9 @@ export function UploadCard() {
                   onChange={(e) => setKaggleUrl(e.target.value)}
                   required
                 />
+                 <p className="text-xs text-muted-foreground px-1">
+                  Note: For demonstration, this will import a sample financial dataset instead of fetching from the URL.
+                </p>
               </div>
               <Button type="submit" size="lg" className="w-full" disabled={isLoading || !kaggleUrl || !description}>
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <ArrowRight className="mr-2 h-4 w-4" />}

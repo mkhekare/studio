@@ -29,7 +29,12 @@ export function DynamicChart({ chartData }: ChartProps) {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey={indexKey} tick={{ fontSize: 12 }} />
             <YAxis tick={{ fontSize: 12 }} />
-            <Tooltip />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: 'hsl(var(--background))',
+                borderColor: 'hsl(var(--border))',
+              }}
+            />
             <Legend />
             {dataKeys.map((key, i) => (
               <Bar key={key} dataKey={key} fill={COLORS[i % COLORS.length]} />
@@ -42,7 +47,12 @@ export function DynamicChart({ chartData }: ChartProps) {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey={indexKey} tick={{ fontSize: 12 }} />
             <YAxis tick={{ fontSize: 12 }}/>
-            <Tooltip />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: 'hsl(var(--background))',
+                borderColor: 'hsl(var(--border))',
+              }}
+            />
             <Legend />
             {dataKeys.map((key, i) => (
                <Line key={key} type="monotone" dataKey={key} stroke={COLORS[i % COLORS.length]} />
@@ -55,7 +65,12 @@ export function DynamicChart({ chartData }: ChartProps) {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey={indexKey} tick={{ fontSize: 12 }} />
             <YAxis tick={{ fontSize: 12 }}/>
-            <Tooltip />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: 'hsl(var(--background))',
+                borderColor: 'hsl(var(--border))',
+              }}
+            />
             <Legend />
             {dataKeys.map((key, i) => (
                <Area key={key} type="monotone" dataKey={key} stroke={COLORS[i % COLORS.length]} fill={COLORS[i % COLORS.length]} fillOpacity={0.3} />
@@ -68,7 +83,13 @@ export function DynamicChart({ chartData }: ChartProps) {
             <CartesianGrid />
             <XAxis type="category" dataKey={indexKey} name={indexKey} tick={{ fontSize: 12 }} />
             <YAxis type="number" dataKey={dataKeys[0]} name={dataKeys[0]} tick={{ fontSize: 12 }} />
-            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+            <Tooltip
+              cursor={{ strokeDasharray: '3 3' }}
+              contentStyle={{
+                backgroundColor: 'hsl(var(--background))',
+                borderColor: 'hsl(var(--border))',
+              }}
+            />
             <Legend/>
             <Scatter name="Data points" data={data} fill={COLORS[0]} />
           </ScatterChart>
@@ -91,7 +112,12 @@ export function DynamicChart({ chartData }: ChartProps) {
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
-            <Tooltip />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: 'hsl(var(--background))',
+                borderColor: 'hsl(var(--border))',
+              }}
+            />
             <Legend />
           </PieChart>
         );
@@ -101,7 +127,7 @@ export function DynamicChart({ chartData }: ChartProps) {
   };
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height="100%">
       {renderChart()}
     </ResponsiveContainer>
   );

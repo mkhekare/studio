@@ -53,12 +53,13 @@ Dataset Sample (CSV):
 
 Based on the data, generate a JSON array of 2 to 4 visualization objects. Each object must conform to the output schema.
 For each visualization:
-- Choose the best 'chartType' from 'bar', 'line', 'scatter', 'pie', or 'area'.
-- Write a clear 'title' and an insightful 'description'.
-- Process and aggregate the raw CSV 'datasetSample' to create the 'data' array for plotting. For example, for a bar chart, you might group by a category and count occurrences. For a pie chart, calculate proportions. For a line chart, you might show a trend over a variable.
+- Choose the most appropriate 'chartType' from 'bar', 'line', 'scatter', 'pie', or 'area'.
+- Write a clear 'title' and an insightful 'description' explaining what the chart shows.
+- Process and aggregate the raw CSV 'datasetSample' to create the 'data' array for plotting. For example, for a bar chart, group by a categorical column and count occurrences. For a pie chart, calculate proportions of a category. For a line chart, show a trend over a numeric or date-like variable.
+- IMPORTANT: The 'data' array must contain objects with numeric values for plotting. Ensure that values for axes and data points are numbers, not strings.
 - Specify the 'dataKeys' (dependent variables/Y-axis) and the 'indexKey' (independent variable/X-axis).
 
-IMPORTANT: Create meaningful aggregations. Do not just return the raw data. Your goal is to produce insightful, ready-to-plot charts. Ensure the final output is a valid JSON array of visualization objects.`,
+Your goal is to produce insightful, ready-to-plot charts with meaningful aggregations, not just the raw data. The final output MUST be a valid JSON array of visualization objects, conforming strictly to the schema.`,
 });
 
 const generateVisualizationsFlow = ai.defineFlow(
