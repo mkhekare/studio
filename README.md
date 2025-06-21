@@ -1,4 +1,4 @@
-<a href="https://studio.firebase.google.com/import?url=https%3A%2F%2Fgithub.com%2Fmkhekare%2FDataWise">
+<a href="https://studio.firebase.google.com/import?url=https%3A%2F%2Fgithub.com%2Fmkhekare%2FDataWiseAI">
   <picture>
     <source
       media="(prefers-color-scheme: dark)"
