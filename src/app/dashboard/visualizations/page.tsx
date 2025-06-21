@@ -6,8 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { generateVisualizations } from '@/ai/flows/intelligent-visualization';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Eye } from 'lucide-react';
-import Image from 'next/image';
 import { Skeleton } from '@/components/ui/skeleton';
+import { DynamicChart } from '../components/dynamic-chart';
 
 const LoadingSkeleton = () => (
     <div className="grid md:grid-cols-2 gap-6">
@@ -40,12 +40,12 @@ export default function VisualizationsPage() {
         setVisualizationsResult(null);
 
         try {
-            const result = await generateVisualizations({ datasetDescription, datasetSample: dataset.slice(0, 5000) });
+            const result = await generateVisualizations({ datasetDescription, datasetSample: dataset.slice(0, 10000) });
             setVisualizationsResult(result);
             toast({ title: "Visualizations Ready", description: "AI-generated charts are available for review." });
         } catch (error) {
             console.error(error);
-            toast({ title: "Error", description: "Failed to generate visualizations.", variant: "destructive" });
+            toast({ title: "Error", description: "Failed to generate visualizations. The AI might have had trouble with your data.", variant: "destructive" });
         } finally {
             setIsLoading(prev => ({ ...prev, visualizations: false }));
         }
@@ -74,18 +74,11 @@ export default function VisualizationsPage() {
                     {visualizationsResult.map((vis, index) => (
                         <Card key={index}>
                             <CardHeader>
-                                <CardTitle className="font-headline flex items-center gap-2"><Eye className="h-5 w-5 text-primary"/>{vis.visualizationType}</CardTitle>
+                                <CardTitle className="font-headline flex items-center gap-2"><Eye className="h-5 w-5 text-primary"/>{vis.title}</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                <div className="border rounded-lg p-4 bg-muted/50 flex justify-center">
-                                 <Image 
-                                    src={vis.imageDataUri}
-                                    width={400}
-                                    height={300}
-                                    alt={vis.description}
-                                    className="rounded-md object-contain"
-                                    data-ai-hint="data visualization"
-                                  />
+                                 <DynamicChart chartData={vis} />
                                </div>
                                 <p className="text-sm text-muted-foreground">{vis.description}</p>
                             </CardContent>

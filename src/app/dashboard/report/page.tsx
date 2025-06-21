@@ -3,9 +3,9 @@
 import { useData } from '@/context/data-context';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Printer, FileWarning, BarChart2, Cpu, Lightbulb, AlertTriangle, ShieldAlert, CheckCircle, Eye, Sparkles, DatabaseZap } from 'lucide-react';
+import { Printer, FileWarning, BarChart2, Cpu, Lightbulb, AlertTriangle, ShieldAlert, CheckCircle, Eye, DatabaseZap } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { DynamicChart } from '../components/dynamic-chart';
 
 const EmptyState = ({ title, description, link, linkText, icon:Icon }: { title: string, description: string, link: string, linkText: string, icon: React.ElementType }) => (
     <div className="text-center p-8 flex flex-col items-center justify-center h-full min-h-[200px]">
@@ -46,9 +46,9 @@ export default function ReportPage() {
                                 <div className="grid md:grid-cols-2 gap-6">
                                     {visualizationsResult.map((vis, index) => (
                                         <div key={index} className="border rounded-lg p-4 space-y-3 bg-muted/30">
-                                            <h4 className="font-semibold font-headline flex items-center gap-2 text-primary"><Eye className="h-4 w-4"/> {vis.visualizationType}</h4>
-                                            <div className="bg-background flex justify-center p-2 rounded-md border">
-                                                <Image src={vis.imageDataUri} width={300} height={200} alt={vis.description} className="rounded-md" data-ai-hint="data visualization"/>
+                                            <h4 className="font-semibold font-headline flex items-center gap-2 text-primary"><Eye className="h-4 w-4"/> {vis.title}</h4>
+                                            <div className="bg-background flex justify-center p-2 rounded-md border h-[250px]">
+                                                <DynamicChart chartData={vis} />
                                             </div>
                                             <p className="text-sm text-muted-foreground">{vis.description}</p>
                                         </div>
