@@ -22,9 +22,12 @@ const GenerateVisualizationsInputSchema = z.object({
 });
 export type GenerateVisualizationsInput = z.infer<typeof GenerateVisualizationsInputSchema>;
 
-const VisualizationSchema = z.object({
+const VisualizationSuggestionSchema = z.object({
   visualizationType: z.string().describe('The type of the visualization (e.g., scatter plot, histogram, bar chart).'),
   description: z.string().describe('A textual description of the visualization and its key insights.'),
+});
+
+const VisualizationSchema = VisualizationSuggestionSchema.extend({
   imageDataUri: z.string().describe('The visualization as a data URI that must include a MIME type and use Base64 encoding. Expected format: \'data:<mimetype>;base64,<encoded_data>\'.'),
 });
 
@@ -38,19 +41,13 @@ export async function generateVisualizations(input: GenerateVisualizationsInput)
 const visualizationPrompt = ai.definePrompt({
   name: 'visualizationPrompt',
   input: {schema: GenerateVisualizationsInputSchema},
-  output: {schema: GenerateVisualizationsOutputSchema},
-  prompt: `You are an expert data analyst. You will generate a set of visualizations tailored to the dataset, along with AI-generated descriptions explaining the key insights revealed by each visualization.
+  output: {schema: z.array(VisualizationSuggestionSchema)},
+  prompt: `You are an expert data analyst. You will suggest a set of visualizations tailored to the dataset, along with AI-generated descriptions explaining the key insights revealed by each visualization.
 
 Dataset Description: {{{datasetDescription}}}
 Dataset Sample: {{{datasetSample}}}
 
-Generate visualizations that are informative and insightful. For each visualization, provide a concise description of the visualization type and the key insights it reveals. Return the visualizations as data URIs.
-
-{{#each this}}
-Visualization Type: {{visualizationType}}
-Description: {{description}}
-Image Data URI: {{media url=imageDataUri}}
-{{/each}}`,
+Suggest 2 to 4 visualizations that are informative and insightful. For each visualization, provide a concise description of the visualization type and the key insights it reveals. Do not generate the image data itself. Your output must be a JSON array of objects, where each object has a "visualizationType" and a "description".`,
 });
 
 const generateVisualizationsFlow = ai.defineFlow(
@@ -60,14 +57,18 @@ const generateVisualizationsFlow = ai.defineFlow(
     outputSchema: GenerateVisualizationsOutputSchema,
   },
   async input => {
-    // TODO: Implement the logic to generate visualizations and their descriptions.
-    // This is a placeholder implementation.
-    const exampleVisualization = {
-      visualizationType: 'Scatter Plot',
-      description: 'A scatter plot showing the relationship between two variables in the dataset.',
-      imageDataUri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w+r8jUAAAP4E0ocw9LX0AAAAAElFTkSuQmCC', // Placeholder image
-    };
-    const {output} = await visualizationPrompt(input);    
-    return [exampleVisualization, exampleVisualization];
+    const {output} = await visualizationPrompt(input);
+    if (!output) {
+      return [];
+    }
+
+    const placeholderImageDataUri = 'https://placehold.co/400x300.png';
+
+    const visualizationsWithImages = output.map((visSuggestion) => ({
+      ...visSuggestion,
+      imageDataUri: placeholderImageDataUri,
+    }));
+    
+    return visualizationsWithImages;
   }
 );

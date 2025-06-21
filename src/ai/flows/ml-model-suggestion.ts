@@ -46,20 +46,7 @@ const modelFamilies = [
     'Dimensionality Reduction Techniques',
 ];
 
-const selectModelFamilies = ai.defineTool({
-    name: 'selectModelFamilies',
-    description: 'Selects suitable machine learning model families based on dataset characteristics and the type of problem to be solved.',
-    inputSchema: z.object({
-      datasetDescription: z
-        .string()
-        .describe('A detailed description of the dataset, including its size, features, and data types.'),
-      problemType: z
-        .string()
-        .describe('The type of machine learning problem to be solved (e.g., classification, regression, clustering).'),
-    }),
-    outputSchema: z.array(z.enum(modelFamilies as [string, ...string[]])),
-  },
-  async (input) => {
+const selectModelFamilies = async (input: MlModelSuggestionInput) => {
     // This is a placeholder; replace with actual logic to select model families.
     // For now, return a default selection.
     if (input.problemType.toLowerCase().includes('classification')) {
@@ -69,26 +56,27 @@ const selectModelFamilies = ai.defineTool({
     } else {
       return ['Clustering Algorithms'];
     }
-  }
-);
+  };
+
+const MlModelPromptInputSchema = MlModelSuggestionInputSchema.extend({
+  recommendedModels: z
+    .array(z.string())
+    .describe('A list of recommended model families.'),
+});
 
 const prompt = ai.definePrompt({
   name: 'mlModelSuggestionPrompt',
-  tools: [selectModelFamilies],
-  input: {schema: MlModelSuggestionInputSchema},
+  input: {schema: MlModelPromptInputSchema},
   output: {schema: MlModelSuggestionOutputSchema},
   prompt: `You are an expert in machine learning model selection.
 
-  Based on the dataset description and the problem type, you will recommend suitable machine learning model families.
-  You will also provide a brief explanation for each recommendation.
+  Based on the dataset description, problem type, and a pre-selected list of model families, you will provide reasoning for the model suggestions.
 
   Dataset Description: {{{datasetDescription}}}
   Problem Type: {{{problemType}}}
+  Recommended Model Families: {{#each recommendedModels}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}}
 
-  First, use the selectModelFamilies tool to select the most relevant model families.
-  Then, explain why these models are suitable for the given dataset and problem type.
-
-  The model families chosen by the selectModelFamilies tool are: {{#each (await selectModelFamilies datasetDescription=datasetDescription problemType=problemType)}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}}
+  Your task is to take the provided Recommended Model Families and generate a 'reasoning' for why these models are suitable for the given dataset and problem type. You must also return the same list of recommended models in your output.
 `,
 });
 
@@ -99,7 +87,8 @@ const recommendMlModelsFlow = ai.defineFlow(
     outputSchema: MlModelSuggestionOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const recommendedModels = await selectModelFamilies(input);
+    const {output} = await prompt({...input, recommendedModels});
     return output!;
   }
 );

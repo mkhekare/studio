@@ -12,7 +12,6 @@ import {
   SidebarInset,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { DataProvider } from '@/context/data-context';
 import { Logo } from '@/components/logo';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -26,19 +25,11 @@ import {
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-export default function DashboardRootLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <DataProvider>
-      <DashboardLayout>{children}</DashboardLayout>
-    </DataProvider>
-  );
-}
-
-function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   const menuItems = [
