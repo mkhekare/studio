@@ -42,65 +42,63 @@ export default function DashboardLayout({
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen">
-        <Sidebar>
-          <SidebarHeader>
-            <Logo />
-          </SidebarHeader>
-          <SidebarContent>
-            <SidebarMenu>
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  <Link href={item.href} legacyBehavior passHref>
-                    <SidebarMenuButton
-                      isActive={pathname === item.href}
-                      tooltip={item.label}
-                    >
-                      <item.icon />
-                      <span>{item.label}</span>
-                    </SidebarMenuButton>
-                  </Link>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarContent>
-          <SidebarFooter className="flex-col !items-stretch !gap-4">
-              <Link href="/" legacyBehavior passHref>
-                  <SidebarMenuButton tooltip="Upload New Data">
-                      <Home/>
-                      <span>Home / Upload</span>
+      <Sidebar>
+        <SidebarHeader>
+          <Logo />
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarMenu>
+            {menuItems.map((item) => (
+              <SidebarMenuItem key={item.href}>
+                <Link href={item.href} legacyBehavior passHref>
+                  <SidebarMenuButton
+                    isActive={pathname === item.href}
+                    tooltip={item.label}
+                  >
+                    <item.icon />
+                    <span>{item.label}</span>
                   </SidebarMenuButton>
-              </Link>
-            <div className="flex items-center gap-3 rounded-md border p-2">
-              <Avatar>
-                <AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="profile avatar" />
-                <AvatarFallback>U</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col overflow-hidden">
-                <span className="text-sm font-semibold truncate">Demo User</span>
-                <span className="text-xs text-muted-foreground truncate">
-                  user@example.com
-                </span>
-              </div>
+                </Link>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarContent>
+        <SidebarFooter className="flex-col !items-stretch !gap-4">
+            <Link href="/" legacyBehavior passHref>
+                <SidebarMenuButton tooltip="Upload New Data">
+                    <Home/>
+                    <span>Home / Upload</span>
+                </SidebarMenuButton>
+            </Link>
+          <div className="flex items-center gap-3 rounded-md border p-2">
+            <Avatar>
+              <AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="profile avatar" />
+              <AvatarFallback>U</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col overflow-hidden">
+              <span className="text-sm font-semibold truncate">Demo User</span>
+              <span className="text-xs text-muted-foreground truncate">
+                user@example.com
+              </span>
             </div>
-          </SidebarFooter>
-        </Sidebar>
-        <SidebarInset>
-          <div className="flex flex-col h-full">
-            <header className="flex h-16 shrink-0 items-center gap-4 border-b bg-background px-6 sticky top-0 z-30">
-                <SidebarTrigger className="md:hidden"/>
-                <div className='flex-1'>
-                  <h1 className="text-2xl font-bold font-headline">
-                      {menuItems.find(item => item.href === pathname)?.label || 'Dashboard'}
-                  </h1>
-                </div>
-            </header>
-            <main className="flex-1 overflow-auto p-4 sm:p-6 md:p-8 bg-muted/20">
-                {children}
-            </main>
           </div>
-        </SidebarInset>
-      </div>
+        </SidebarFooter>
+      </Sidebar>
+      <SidebarInset>
+        <div className="flex flex-col h-full">
+          <header className="flex h-16 shrink-0 items-center gap-4 border-b bg-background px-6 sticky top-0 z-30">
+              <SidebarTrigger className="md:hidden"/>
+              <div className='flex-1'>
+                <h1 className="text-2xl font-bold font-headline">
+                    {menuItems.find(item => item.href === pathname)?.label || 'Dashboard'}
+                </h1>
+              </div>
+          </header>
+          <main className="flex-1 overflow-auto p-4 sm:p-6 md:p-8 bg-muted/20">
+              {children}
+          </main>
+        </div>
+      </SidebarInset>
     </SidebarProvider>
   );
 }
