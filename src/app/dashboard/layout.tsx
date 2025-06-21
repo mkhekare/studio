@@ -50,26 +50,27 @@ export default function DashboardLayout({
           <SidebarMenu>
             {menuItems.map((item) => (
               <SidebarMenuItem key={item.href}>
-                <Link href={item.href} legacyBehavior passHref>
-                  <SidebarMenuButton
-                    isActive={pathname === item.href}
-                    tooltip={item.label}
-                  >
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === item.href}
+                  tooltip={item.label}
+                >
+                  <Link href={item.href}>
                     <item.icon />
                     <span>{item.label}</span>
-                  </SidebarMenuButton>
-                </Link>
+                  </Link>
+                </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter className="flex-col !items-stretch !gap-4">
-            <Link href="/" legacyBehavior passHref>
-                <SidebarMenuButton tooltip="Upload New Data">
+            <SidebarMenuButton asChild tooltip="Upload New Data">
+                <Link href="/">
                     <Home/>
                     <span>Home / Upload</span>
-                </SidebarMenuButton>
-            </Link>
+                </Link>
+            </SidebarMenuButton>
           <div className="flex items-center gap-3 rounded-md border p-2">
             <Avatar>
               <AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="profile avatar" />

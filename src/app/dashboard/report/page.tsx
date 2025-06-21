@@ -12,9 +12,9 @@ const EmptyState = ({ title, description, link, linkText, icon:Icon }: { title: 
         <Icon className="h-12 w-12 text-muted-foreground mb-4" />
         <h3 className="font-headline text-xl mb-2">{title}</h3>
         <p className="text-muted-foreground mb-4 max-w-xs">{description}</p>
-        <Link href={link} passHref>
-            <Button variant="outline">{linkText}</Button>
-        </Link>
+        <Button variant="outline" asChild>
+            <Link href={link}>{linkText}</Link>
+        </Button>
     </div>
 );
 

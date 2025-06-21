@@ -23,9 +23,9 @@ export function DataPreviewTable() {
         </CardHeader>
         <CardContent className="text-center">
           <p className="text-muted-foreground mb-4">Please upload a dataset from the homepage to get started.</p>
-          <Link href="/" passHref>
-            <Button variant="outline">Go to Upload Page</Button>
-          </Link>
+          <Button variant="outline" asChild>
+            <Link href="/">Go to Upload Page</Link>
+          </Button>
         </CardContent>
       </Card>
     );

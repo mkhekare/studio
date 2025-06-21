@@ -35,11 +35,11 @@ export default function DashboardPage() {
             <DatabaseZap className="h-16 w-16 text-primary mb-4" />
             <h2 className="text-3xl font-bold font-headline mb-2">Welcome to DataPathfinder AI</h2>
             <p className="text-muted-foreground mb-6 max-w-sm">It seems your canvas is empty. Let's paint it with data! Upload a dataset to begin your journey of discovery.</p>
-            <Link href="/" passHref>
-                <Button size="lg">
+            <Button size="lg" asChild>
+                <Link href="/">
                   Upload Your First Dataset
-                </Button>
-            </Link>
+                </Link>
+            </Button>
         </div>
     )
   }
