@@ -74,10 +74,26 @@ export function UploadCard() {
     }
     setIsLoading(true);
 
+    // Using a more realistic, larger mock dataset for demonstration
     setTimeout(() => {
-      const mockCsv = `sepal_length,sepal_width,petal_length,petal_width,species\n5.1,3.5,1.4,0.2,setosa\n4.9,3.0,1.4,0.2,setosa\n7.0,3.2,4.7,1.4,versicolor\n6.4,3.2,4.5,1.5,versicolor\n6.3,3.3,6.0,2.5,virginica\n5.8,2.7,5.1,1.9,virginica`;
+      const mockCsv = `Year,Industry_aggregation_NZSIOC,Industry_code_NZSIOC,Industry_name_NZSIOC,Units,Variable_code,Variable_name,Variable_category,Value,Industry_code_ANZSIC06
+2021,Level 1,99999,All industries,Dollars (millions),H01,Total income,Financial,"29,355",ANZSIC06 divisions A-S (excluding classes K6330, L6711, O7552, O760, O771, O772, S9540, S9601, S9602, and S9603)
+2021,Level 1,99999,All industries,Dollars (millions),H04,"Sales, goods and services",Financial,"26,591",ANZSIC06 divisions A-S (excluding classes K6330, L6711, O7552, O760, O771, O772, S9540, S9601, S9602, and S9603)
+2021,Level 1,99999,All industries,Dollars (millions),H05,"Interest, dividends and donations",Financial,"2,544",ANZSIC06 divisions A-S (excluding classes K6330, L6711, O7552, O760, O771, O772, S9540, S9601, S9602, and S9603)
+2021,Level 1,99999,All industries,Dollars (millions),H07,Non-operating income,Financial,"220",ANZSIC06 divisions A-S (excluding classes K6330, L6711, O7552, O760, O771, O772, S9540, S9601, S9602, and S9603)
+2021,Level 1,99999,All industries,Dollars (millions),H08,Total expenditure,Financial,"23,622",ANZSIC06 divisions A-S (excluding classes K6330, L6711, O7552, O760, O771, O772, S9540, S9601, S9602, and S9603)
+2020,Level 1,A,"Agriculture, Forestry and Fishing",Dollars (millions),H01,Total income,Financial,"52,559",ANZSIC06 division A
+2020,Level 1,A,"Agriculture, Forestry and Fishing",Dollars (millions),H04,"Sales, goods and services",Financial,"49,963",ANZSIC06 division A
+2019,Level 1,B,Mining,Dollars (millions),H01,Total income,Financial,"3,333",ANZSIC06 division B
+2019,Level 1,B,Mining,Dollars (millions),H04,"Sales, goods and services",Financial,"3,212",ANZSIC06 division B
+2018,Level 1,C,Manufacturing,Dollars (millions),H01,Total income,Financial,"130,500",ANZSIC06 division C
+2018,Level 1,C,Manufacturing,Dollars (millions),H04,"Sales, goods and services",Financial,"128,546",ANZSIC06 division C
+2017,Level 1,D,"Electricity, Gas, Water and Waste Services",Dollars (millions),H01,Total income,Financial,"24,333",ANZSIC06 division D
+2017,Level 1,D,"Electricity, Gas, Water and Waste Services",Dollars (millions),H04,"Sales, goods and services",Financial,"23,630",ANZSIC06 division D
+2016,Level 1,E,Construction,Dollars (millions),H01,Total income,Financial,"62,441",ANZSIC06 division E
+2016,Level 1,E,Construction,Dollars (millions),H04,"Sales, goods and services",Financial,"61,438",ANZSIC06 division E`;
       setDataset(mockCsv);
-      setFileName(`kaggle_iris_dataset.csv`);
+      setFileName(`kaggle_financial_data.csv`);
       setDatasetDescription(description);
       toast({
         title: "Success!",
@@ -95,7 +111,7 @@ export function UploadCard() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4 mb-6">
-          <Label htmlFor="description" className="text-base">1. Describe Your Dataset</Label>
+          <Label htmlFor="description" className="text-base font-semibold">1. Describe Your Dataset</Label>
           <Textarea 
             id="description" 
             placeholder="e.g., Iris flower dataset with measurements for three species." 
@@ -107,8 +123,8 @@ export function UploadCard() {
           <p className="text-sm text-muted-foreground">A brief description helps the AI understand your data's context.</p>
         </div>
         
-        <Label className="text-base">2. Provide Your Data</Label>
-        <Tabs defaultValue="upload" className="w-full">
+        <Label className="text-base font-semibold">2. Provide Your Data</Label>
+        <Tabs defaultValue="upload" className="w-full mt-2">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="upload" disabled={isLoading}><UploadCloud className="mr-2 h-4 w-4" /> Upload File</TabsTrigger>
             <TabsTrigger value="kaggle" disabled={isLoading}><LinkIcon className="mr-2 h-4 w-4" /> Import from Kaggle</TabsTrigger>

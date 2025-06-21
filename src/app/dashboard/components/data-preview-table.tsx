@@ -38,27 +38,27 @@ export function DataPreviewTable() {
         <CardDescription>A preview of your dataset: <span className="font-semibold text-primary">{fileName}</span></CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="overflow-auto rounded-md border max-h-96">
+        <div className="overflow-auto rounded-md border max-h-[60vh]">
           <Table>
-            <TableHeader className="sticky top-0 bg-muted/50 backdrop-blur-sm">
+            <TableHeader className="bg-muted">
               <TableRow>
                 {headers.map((header, index) => (
-                  <TableHead key={index}>{header}</TableHead>
+                  <TableHead key={index} className="whitespace-nowrap">{header}</TableHead>
                 ))}
               </TableRow>
             </TableHeader>
             <TableBody>
-              {rows.slice(0, 20).map((row, rowIndex) => (
+              {rows.slice(0, 100).map((row, rowIndex) => (
                 <TableRow key={rowIndex}>
                   {row.map((cell, cellIndex) => (
-                    <TableCell key={cellIndex}>{cell}</TableCell>
+                    <TableCell key={cellIndex} className="whitespace-nowrap text-sm">{cell}</TableCell>
                   ))}
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </div>
-         {rows.length > 20 && <p className="text-sm text-muted-foreground mt-2">Showing first 20 of {rows.length} total rows.</p>}
+         {rows.length > 100 && <p className="text-sm text-muted-foreground mt-2">Showing first 100 of {rows.length} total rows.</p>}
       </CardContent>
     </Card>
   );
