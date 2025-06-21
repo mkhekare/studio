@@ -36,47 +36,41 @@ export async function recommendMlModels(input: MlModelSuggestionInput): Promise<
   return recommendMlModelsFlow(input);
 }
 
-const modelFamilies = [
-    'Linear Models',
-    'Decision Trees',
-    'Support Vector Machines',
-    'Neural Networks',
-    'Bayesian Models',
-    'Clustering Algorithms',
-    'Dimensionality Reduction Techniques',
-];
-
-const selectModelFamilies = async (input: MlModelSuggestionInput) => {
-    // This is a placeholder; replace with actual logic to select model families.
-    // For now, return a default selection.
-    if (input.problemType.toLowerCase().includes('classification')) {
-      return ['Linear Models', 'Decision Trees', 'Support Vector Machines'];
-    } else if (input.problemType.toLowerCase().includes('regression')) {
-      return ['Linear Models', 'Decision Trees', 'Neural Networks'];
-    } else {
-      return ['Clustering Algorithms'];
-    }
-  };
-
-const MlModelPromptInputSchema = MlModelSuggestionInputSchema.extend({
-  recommendedModels: z
-    .array(z.string())
-    .describe('A list of recommended model families.'),
-});
+const getAvailableModelFamilies = ai.defineTool(
+    {
+      name: 'getAvailableModelFamilies',
+      description: 'Returns a list of available machine learning model families to choose from.',
+      inputSchema: z.object({}),
+      outputSchema: z.array(z.string()),
+    },
+    async () => [
+      'Linear Models',
+      'Decision Trees',
+      'Support Vector Machines',
+      'Neural Networks',
+      'Bayesian Models',
+      'Clustering Algorithms',
+      'Dimensionality Reduction Techniques',
+      'Ensemble Methods (e.g., Random Forest, XGBoost)',
+    ]
+);
 
 const prompt = ai.definePrompt({
   name: 'mlModelSuggestionPrompt',
-  input: {schema: MlModelPromptInputSchema},
+  input: {schema: MlModelSuggestionInputSchema},
   output: {schema: MlModelSuggestionOutputSchema},
-  prompt: `You are an expert in machine learning model selection.
+  tools: [getAvailableModelFamilies],
+  prompt: `You are an expert in machine learning model selection. Your task is to recommend suitable model families for a given dataset and problem type.
 
-  Based on the dataset description, problem type, and a pre-selected list of model families, you will provide reasoning for the model suggestions.
+  1. Use the 'getAvailableModelFamilies' tool to see the list of model families you can recommend.
+  2. Analyze the provided dataset description and problem type.
+  3. Select the most appropriate model families from the available list.
+  4. Provide a detailed 'reasoning' for your selection, explaining why each recommended model is a good fit. Justify your choices based on data size, feature types, linearity, robustness to issues like outliers, and interpretability needs.
 
   Dataset Description: {{{datasetDescription}}}
   Problem Type: {{{problemType}}}
-  Recommended Model Families: {{#each recommendedModels}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}}
 
-  Your task is to take the provided Recommended Model Families and generate a 'reasoning' for why these models are suitable for the given dataset and problem type. You must also return the same list of recommended models in your output.
+  Your output must be a JSON object conforming to the output schema, containing the 'recommendedModels' array and the 'reasoning' string.
 `,
 });
 
@@ -87,8 +81,7 @@ const recommendMlModelsFlow = ai.defineFlow(
     outputSchema: MlModelSuggestionOutputSchema,
   },
   async input => {
-    const recommendedModels = await selectModelFamilies(input);
-    const {output} = await prompt({...input, recommendedModels});
+    const {output} = await prompt(input);
     return output!;
   }
 );

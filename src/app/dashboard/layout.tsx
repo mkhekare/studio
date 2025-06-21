@@ -42,7 +42,7 @@ export default function DashboardLayout({
 
   return (
     <SidebarProvider>
-      <div className="bg-background">
+      <div className="bg-background min-h-screen">
         <Sidebar>
           <SidebarHeader>
             <Logo />
@@ -86,13 +86,15 @@ export default function DashboardLayout({
           </SidebarFooter>
         </Sidebar>
         <SidebarInset>
-          <header className="flex h-14 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-6 sticky top-0 z-30">
+          <header className="flex h-16 items-center gap-4 border-b bg-card/50 backdrop-blur-sm px-6 sticky top-0 z-30">
               <SidebarTrigger className="md:hidden"/>
-              <h1 className="text-xl font-semibold font-headline">
-                  {menuItems.find(item => pathname.startsWith(item.href))?.label || 'Dashboard'}
-              </h1>
+              <div className='flex-1'>
+                <h1 className="text-2xl font-bold font-headline">
+                    {menuItems.find(item => item.href === pathname)?.label || 'Dashboard'}
+                </h1>
+              </div>
           </header>
-          <main className="flex-1 overflow-auto p-4 sm:p-6">{children}</main>
+          <main className="flex-1 overflow-auto p-4 sm:p-6 md:p-8">{children}</main>
         </SidebarInset>
       </div>
     </SidebarProvider>

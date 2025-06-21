@@ -88,26 +88,26 @@ export function UploadCard() {
   }
 
   return (
-    <Card className="w-full max-w-2xl shadow-2xl bg-card/80 backdrop-blur-sm">
+    <Card className="w-full max-w-2xl shadow-2xl bg-card z-10">
       <CardHeader>
-        <CardTitle className="font-headline text-3xl">Get Started</CardTitle>
+        <CardTitle>Get Started</CardTitle>
         <CardDescription>Upload your dataset or import from Kaggle to begin analysis.</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4 mb-6">
-          <Label htmlFor="description">1. Describe Your Dataset</Label>
+          <Label htmlFor="description" className="text-base">1. Describe Your Dataset</Label>
           <Textarea 
             id="description" 
             placeholder="e.g., Iris flower dataset with measurements for three species." 
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
-            className="h-24"
+            className="h-24 text-base"
           />
           <p className="text-sm text-muted-foreground">A brief description helps the AI understand your data's context.</p>
         </div>
         
-        <Label>2. Provide Your Data</Label>
+        <Label className="text-base">2. Provide Your Data</Label>
         <Tabs defaultValue="upload" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="upload" disabled={isLoading}><UploadCloud className="mr-2 h-4 w-4" /> Upload File</TabsTrigger>
@@ -119,7 +119,7 @@ export function UploadCard() {
               <div>
                 <Input id="file-upload" type="file" accept=".csv" onChange={handleFileChange} required />
               </div>
-              <Button type="submit" className="w-full" disabled={isLoading || !file || !description}>
+              <Button type="submit" size="lg" className="w-full" disabled={isLoading || !file || !description}>
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <ArrowRight className="mr-2 h-4 w-4" />}
                 {isLoading ? 'Processing...' : 'Analyze Dataset'}
               </Button>
@@ -137,7 +137,7 @@ export function UploadCard() {
                   required
                 />
               </div>
-              <Button type="submit" className="w-full" disabled={isLoading || !kaggleUrl || !description}>
+              <Button type="submit" size="lg" className="w-full" disabled={isLoading || !kaggleUrl || !description}>
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <ArrowRight className="mr-2 h-4 w-4" />}
                 {isLoading ? 'Importing...' : 'Import & Analyze'}
               </Button>
